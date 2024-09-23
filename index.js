@@ -3,6 +3,8 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
 const port = 8000;
+const connectDB = require("./config/db");
+connectDB();
 
 const authRouter = require("./routes/auth");
 
