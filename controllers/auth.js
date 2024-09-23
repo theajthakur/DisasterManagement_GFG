@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const handleLogin = async (req, res) => {
   const { email, password } = req.body;
@@ -21,16 +23,19 @@ const handleLogin = async (req, res) => {
         .json({ status: "error", message: "No user found with this email." });
     }
 
-    // Here you would normally compare the hashed password
-    // For demonstration, assuming plain text comparison (not recommended for production)
     if (user.password !== password) {
       return res
         .status(401)
         .json({ status: "error", message: "Incorrect password." });
     }
-
+    const token = jwt.sign({ user }, JWT_SECRET);
     // If login is successful
-    res.json({ status: "success", message: "Login successful!", user });
+    res.json({
+      status: "success",
+      message: "Login successful!",
+      user,
+      token: token,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({
