@@ -10,6 +10,7 @@
     <title>
       <% if (locals.title) { %> <%= title %> <% }else{ %> Anti-Disaster <% } %>
     </title>
+    <script src="/js/jquery.js"></script>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/css/bs.css" />
@@ -17,7 +18,9 @@
   <body>
     <div id="root">
       <%- include('components/navbar') %>
-      <div class="container"></div>
+      <div class="container">
+        <% if (!locals.login) { %> <%- include("loginform") %> <% } %>
+      </div>
     </div>
     <script src="/js/bs.js"></script>
   </body>

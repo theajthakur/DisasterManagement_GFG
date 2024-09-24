@@ -30,11 +30,16 @@ const handleLogin = async (req, res) => {
     }
     const token = jwt.sign({ user }, JWT_SECRET);
     // If login is successful
+
+    res.cookie("token", token, {
+      httpOnly: true, // Helps mitigate XSS attacks by restricting access to the cookie
+      secure: process.env.NODE_ENV === "production", // Use Secure flag only in production (HTTPS)
+      maxAge: 3600000, // 1 hour
+    });
+
     res.json({
       status: "success",
-      message: "Login successful!",
-      user,
-      token: token,
+      message: "Login Successful",
     });
   } catch (error) {
     console.error(error);

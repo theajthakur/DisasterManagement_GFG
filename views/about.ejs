@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>
+      <% if (locals.title) { %> <%= title %> <% }else{ %> Anti-Disaster <% } %>
+    </title>
+    <script src="/js/jquery.js"></script>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/bs.css" />
+  </head>
+  <body>
+    <div id="root">
+      <%- include('components/navbar') %>
+      <div class="container mt-3">
+        <section id="about" class="about-section">
+          <div class="container">
+            <h2>About Anti-Disaster</h2>
+            <p>
+              Our website is dedicated to enhancing disaster management through
+              a community-driven approach. We provide a platform where users can
+              report disasters in real-time, ensuring that our team verifies
+              these reports swiftly and accurately. Once approved, the disaster
+              information will be displayed in our Feed section, allowing
+              everyone to stay informed and take necessary actions.
+            </p>
+            <p>
+              In addition to reporting disasters, our Feed section offers an
+              option for users to support those affected by donating money.
+              Every contribution goes directly to helping victims of disasters,
+              ensuring that the funds are utilized effectively for their
+              recovery and support.
+            </p>
+            <p>
+              For individuals trapped in disaster-stricken areas, our website
+              features essential resources to find nearby safe places, access
+              critical supplies, and communicate through SOS alerts and audio
+              messages. We believe that timely information and community support
+              can make a significant difference in the lives of those facing
+              disasters.
+            </p>
+            <p>
+              Join us in our mission to create a safer, more resilient community
+              by utilizing our platform for reporting, supporting, and
+              connecting during times of crisis.
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
