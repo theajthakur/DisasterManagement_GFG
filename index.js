@@ -9,9 +9,12 @@ const authRouter = require("./routes/auth");
 const connectDB = require("./config/db");
 connectDB();
 
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.set("view engine", "ejs");
+
 app.use("/auth/", authRouter);
 app.use("/web/", authMiddleware);
 
