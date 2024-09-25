@@ -9,6 +9,8 @@ const authMiddleware = require("./middlewares/authMiddleware");
 require("dotenv").config();
 const authRouter = require("./routes/auth");
 const staticRouter = require("./routes/static");
+const apiRouter = require("./routes/locationApi");
+const disasterRoutes = require("./routes/disaster");
 const connectDB = require("./config/db");
 connectDB();
 
@@ -28,6 +30,8 @@ const checkLogin = (req, res, next) => {
 app.use("/auth/", authRouter);
 app.use("/", checkLogin, staticRouter);
 app.use("/web/", authMiddleware);
+app.use("/api/", authMiddleware, apiRouter);
+app.use("/", authMiddleware, disasterRoutes);
 
 app.listen(port, () => {
   console.log(`Server Started on PORT ${port}`);

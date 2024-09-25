@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const Disaster = require("../models/disaster");
 router.get("/", async (req, res) => {
   const user = req.user;
   console.log(user);
@@ -10,7 +10,8 @@ router.get("/", async (req, res) => {
 
 router.get("/feeds", async (req, res) => {
   const user = req.user;
-  if (user) return res.render("feeds", { login: true, user });
+  const data = await Disaster.find({});
+  if (user) return res.render("feeds", { login: true, user, data });
   res.render("feeds");
 });
 

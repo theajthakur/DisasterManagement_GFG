@@ -22,39 +22,29 @@
       <%- include('components/navbar') %>
       <div class="container mt-3">
         <div class="feed-container row">
-          <div class="col-md-6 col-lg-4 col-lg-4 mb-3">
-            <div class="feed-card h-100">
-              <div class="meta-details">
-                <h5>Heavy Hailstorm</h5>
-                <p>Madhogarh, Uttar Pradesh | 29 Sept, 2024 - 23:11</p>
-              </div>
-              <div class="disaster-gallery">
-                <img src="/image/demo1.jpg" />
-              </div>
-            </div>
-          </div>
+          <% if (locals.data) { %> <% data.forEach(function(disaster) { %>
           <div class="col-md-6 col-lg-4 mb-3">
-            <div class="feed-card h-100">
+            <div class="feed-card">
               <div class="meta-details">
-                <h5>Flooded Village</h5>
-                <p>Champaran, Bihar | 27 Sept, 2024 - 12:32</p>
+                <h5><%= disaster.name %></h5>
+                <!-- Disaster name -->
+                <p class="m-0"><%= disaster.locationName %></p>
+                <p>
+                  <%= new Date(disaster.createdAt).toLocaleDateString() %> - <%=
+                  new Date(disaster.createdAt).toLocaleTimeString() %>
+                </p>
+                <!-- Location and formatted date-time -->
               </div>
-              <div class="disaster-gallery">
-                <img src="/image/demo2.jpg" />
+              <div class="disaster-gallery text-center">
+                <img
+                  src="/uploads/<%= disaster.picture %>"
+                  alt="<%= disaster.name %> Image"
+                />
+                <!-- Disaster image -->
               </div>
             </div>
           </div>
-          <div class="col-md-6 col-lg-4 mb-3">
-            <div class="feed-card h-100">
-              <div class="meta-details">
-                <h5>Gomti River Flood</h5>
-                <p>Gomti River, Lucknow | 23 Sept, 2024 - 01:24</p>
-              </div>
-              <div class="disaster-gallery">
-                <img src="/image/demo3.jpg" />
-              </div>
-            </div>
-          </div>
+          <% }) %> <% } %>
         </div>
       </div>
       <% if (locals.login) { %>
@@ -91,7 +81,12 @@
               ></button>
             </div>
             <div class="modal-body">
-              <form class="disaterUpload">
+              <form
+                class="disaterUpload"
+                action="/disaster"
+                enctype="multipart/form-data"
+                method="POST"
+              >
                 <div class="form-group mb-3">
                   <input
                     type="text"
@@ -101,25 +96,35 @@
                     required
                   />
                 </div>
+                <input type="hidden" name="locationCoords" id="locCordVal" />
                 <div class="form-group mb-3">
-                  <input
-                    type="text"
-                    name="location"
-                    class="form-control"
-                    placeholder="Disaster Location"
-                    required
-                  />
+                  <div class="input-field">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="locationSearch"
+                      name="locationName"
+                      placeholder="Disaster Location"
+                      required
+                    />
+                    <a class="btn btn-primary" onclick="locationSearch()">
+                      search
+                    </a>
+                  </div>
+                  <div class="locationSuggest"></div>
                 </div>
-                <div class="form-group mb-3">
-                  <input
-                    type="file"
-                    name="picture"
-                    accept="image/*"
-                    required
-                    class="form-control"
-                  />
+                <div class="finallyView" style="display: none">
+                  <div class="form-group mb-3">
+                    <input
+                      type="file"
+                      name="picture"
+                      accept="image/*"
+                      required
+                      class="form-control"
+                    />
+                  </div>
+                  <button class="btn btn-primary w-100">Submit</button>
                 </div>
-                <button class="btn btn-primary w-100">Submit</button>
               </form>
             </div>
           </div>
@@ -127,6 +132,38 @@
       </div>
       <% } %>
     </div>
+    <script>
+      const inputField = document.getElementById("locationSearch");
+      inputField.addEventListener("input", function () {
+        $(".finallyView").hide();
+        $("input#locCordVal").val("");
+      });
+      function locationSearch() {
+        const query = inputField.value;
+        $.get("http://localhost:8000/api/location?q=" + query, (data) => {
+          if (typeof data == "object" && data.length > 0) {
+            const locData = data
+              .map(
+                (d) =>
+                  `<li data-coords='${d.lat},${d.lon}'>${d.display_name}</li>`
+              )
+              .join("");
+            $(".locationSuggest").html("<ul>" + locData + "</ul>");
+            $(".locationSuggest ul li")
+              .off("click")
+              .click(function () {
+                inputField.value = $(this).text();
+                $("input#locCordVal").val($(this).data("coords"));
+                $(".locationSuggest ul").remove();
+                $(".finallyView").show();
+              });
+          } else {
+            console.log("Nothing Found!");
+          }
+        });
+      }
+      $(document).ready(() => {});
+    </script>
     <style>
       .feed-card {
         border: 1px solid #e9e9e9;
@@ -134,8 +171,14 @@
         padding: 20px;
       }
 
+      .disaster-gallery {
+        max-height: 50vh;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
       .feed-card .disaster-gallery img {
-        width: 100%;
+        max-width: 100%;
         max-height: 80vh;
       }
 
@@ -146,6 +189,35 @@
 
       .feed-card .meta-details h5 {
         color: #464646;
+      }
+
+      .input-field {
+        position: relative;
+      }
+
+      .input-field a.btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+
+      .locationSuggest ul {
+        list-style: none;
+        padding: 0;
+        background: #f9f9f9;
+        font-size: 0.8rem;
+      }
+
+      .locationSuggest ul li {
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: 0.1s;
+        color: #3c3c3c;
+      }
+
+      .locationSuggest ul li:hover {
+        background: white;
+        color: black;
       }
     </style>
   </body>
