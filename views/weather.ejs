@@ -19,7 +19,49 @@
     <div id="root">
       <%- include('components/navbar') %>
       <div class="container mt-5">
-        <% if (!locals.login) { %> <%- include("loginform") %> <% } %>
+        <div class="row alert alert-warning p-5">
+          <div class="col-lg-6">
+            <div class="h-100">
+              <h3 class="mb-3">We're here to Help You.........</h3>
+              <p>
+                At Anti-Disaster, we believe that timely information can save
+                lives. Our platform empowers users to report and share local
+                disaster incidents, ensuring communities stay informed and
+                prepared. With a dedicated verification team, we strive to
+                provide accurate updates and assist those in genuine need. By
+                combining real-time alerts with visual mapping, we aim to foster
+                a connected and resilient community. Join us in creating a safer
+                environment for everyone—together, we can make a difference.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="h-100 p-3">
+              <% if (!locals.login) { %> <%- include("loginform") %> <% }else
+              if(locals.user){ %>
+              <div
+                class="d-flex h-100 justify-content-center align-items-center"
+              >
+                <div class="text-center">
+                  <h3>Welcome <%= (user.user.name).toUpperCase() %></h3>
+                  <div class="row justify-content-center">
+                    <div class="col-md-4">
+                      <a
+                        href="/logout"
+                        class="mt-3 btn btn-outline-danger w-100"
+                        >Logout</a
+                      >
+                    </div>
+                    <div class="col-md-4">
+                      <a href="/feeds" class="mt-3 btn btn-info w-100">feeds</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <script src="/js/bs.js"></script>

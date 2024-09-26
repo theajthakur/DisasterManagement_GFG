@@ -7,6 +7,12 @@ const {
   getOAuthToken,
 } = require("../controllers/mapMyIndia");
 
+router.get("/logout", (req, res) => {
+  req.user = {};
+  res.cookie("token", "");
+  res.redirect("/");
+});
+
 router.get("/", async (req, res) => {
   const user = req.user;
   console.log(user);
