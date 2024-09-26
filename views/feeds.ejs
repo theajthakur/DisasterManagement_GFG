@@ -48,72 +48,58 @@
         </div>
       </div>
       <% if (locals.login) { %>
-      <div class="fixed-bottom z-3">
-        <div class="p-3">
-          <button
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#newfeed"
-            style="font-size: 1.5rem"
-          >
-            +
-          </button>
+      <div class="showLocEnable" style="display: none">
+        <div class="fixed-bottom z-3">
+          <div class="p-3">
+            <button
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#newfeed"
+              style="font-size: 1.5rem"
+            >
+              +
+            </button>
+          </div>
         </div>
-      </div>
 
-      <!-- Modal -->
-      <div
-        class="modal fade"
-        id="newfeed"
-        tabindex="-1"
-        aria-labelledby="newFeed"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="newfeed">Report Disaster</h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form
-                class="disaterUpload"
-                action="/disaster"
-                enctype="multipart/form-data"
-                method="POST"
-              >
-                <div class="form-group mb-3">
-                  <input
-                    type="text"
-                    name="name"
-                    class="form-control"
-                    placeholder="Title of Disaster"
-                    required
-                  />
-                </div>
-                <input type="hidden" name="eloc" id="locCordVal" />
-                <div class="form-group mb-3">
-                  <div class="input-field">
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="newfeed"
+          tabindex="-1"
+          aria-labelledby="newFeed"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="newfeed">Report Disaster</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form
+                  class="disaterUpload"
+                  action="/disaster"
+                  enctype="multipart/form-data"
+                  method="POST"
+                >
+                  <div class="form-group mb-3">
                     <input
                       type="text"
+                      name="name"
                       class="form-control"
-                      id="locationSearch"
-                      name="locationName"
-                      placeholder="Disaster Location"
+                      placeholder="Title of Disaster"
                       required
                     />
-                    <a class="btn btn-primary" onclick="locationSearch()">
-                      search
-                    </a>
                   </div>
-                  <div class="locationSuggest"></div>
-                </div>
-                <div class="finallyView" style="display: none">
+                  <input type="hidden" name="lat" id="latCordVal" />
+                  <input type="hidden" name="lng" id="lngCordVal" />
+
                   <div class="form-group mb-3">
                     <input
                       type="file"
@@ -123,9 +109,18 @@
                       class="form-control"
                     />
                   </div>
+                  <div class="mb-3 form-group">
+                    <textarea
+                      name="description"
+                      class="form-control"
+                      rows="4"
+                      placeholder="Enter Disaster Description...."
+                      style="resize: none"
+                    ></textarea>
+                  </div>
                   <button class="btn btn-primary w-100">Submit</button>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -133,36 +128,31 @@
       <% } %>
     </div>
     <script>
-      const inputField = document.getElementById("locationSearch");
-      inputField.addEventListener("input", function () {
-        $(".finallyView").hide();
-        $("input#locCordVal").val("");
-      });
-      function locationSearch() {
-        const query = inputField.value;
-        $.get("http://localhost:8000/api/location?q=" + query, (data_t) => {
-          const data = data_t.suggestedLocations;
-          if (typeof data == "object" && data.length > 0) {
-            const locData = data
-              .map(
-                (d) =>
-                  `<li data-eLoc='${d.eLoc}'>${d.placeName}, ${d.placeAddress}</li>`
-              )
-              .join("");
-            $(".locationSuggest").html("<ul>" + locData + "</ul>");
-            $(".locationSuggest ul li")
-              .off("click")
-              .click(function () {
-                inputField.value = $(this).text();
-                $("input#locCordVal").val($(this).data("eloc"));
-                $(".locationSuggest ul").remove();
-                $(".finallyView").show();
-              });
-          } else {
-            console.log("Nothing Found!");
-          }
-        });
+      // Check if geolocation is available
+      const coords = { lat: 3, lng: 3 };
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+      } else {
+        console.log("Geolocation is not supported by this browser.");
       }
+
+      // Success callback function
+      function success(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        coords.lat = lat;
+        coords.lng = lng;
+        $(".showLocEnable").show();
+        $("#latCordVal").val(lat);
+        $("#lngCordVal").val(lng);
+      }
+
+      // Error callback function
+      function error() {
+        $(".showLocEnable").remove();
+        alert("Unable to retrieve your location.");
+      }
+
       $(document).ready(() => {
         $(".feed-card").click(function () {
           const tarId = $(this).data("id");

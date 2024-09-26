@@ -7,13 +7,22 @@ const disasterSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    eLoc: {
-      type: String,
+    locationCoords: {
+      type: {
+        lat: {
+          type: Number,
+          required: true,
+        },
+        lng: {
+          type: Number,
+          required: true,
+        },
+      },
       required: true,
     },
-    locationName: {
+    description: {
       type: String,
-      required: true,
+      default: "",
     },
     picture: {
       type: String, // Store the filename

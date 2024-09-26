@@ -23,7 +23,7 @@
         <% if (locals.disaster) { %>
         <table class="table table-bordered">
           <tr colspan="2">
-            <div id="map"></div>
+            <div id="map" style="height: 40vh"></div>
           </tr>
           <tr>
             <th>Title</th>
@@ -31,7 +31,11 @@
           </tr>
           <tr>
             <th>Location</th>
-            <td><%= disaster.locationName %></td>
+            <td id="locationName"></td>
+          </tr>
+          <tr>
+            <th>LocatioDescriptionn</th>
+            <td><%= disaster.description %></td>
           </tr>
           <tr>
             <th>Upload On</th>
@@ -44,12 +48,42 @@
         <% } %>
       </div>
     </div>
-    <input id="latitude" value="<%= disaster.coords.lat %>" />
-    <input id="longitude" value="<%= disaster.coords.lng %>" />
+    <input
+      id="latitude"
+      type="hidden"
+      value="<%= disaster.locationCoords.lat %>"
+    />
+    <input
+      id="longitude"
+      type="hidden"
+      value="<%= disaster.locationCoords.lng %>"
+    />
     <script>
+      const lat = $("#latitude").val();
+      const lng = $("#longitude").val();
       map = new mappls.Map("map", {
-        center: { lat: $("#latitude").val(), lng: $("#longitude").val() },
+        center: { lat: lat, lng: lng },
+        zoom: 15,
       });
+      var marker = new mappls.Marker({
+        map: map,
+        position: { lat: lat, lng: lng },
+      });
+      $.get(
+        `http://localhost:8000/api/location/coords?lat=${lat}&lng=${lng}`,
+        function (data_l) {
+          var address = "NULL";
+          const data = data_l.results[0];
+          if (data) {
+            address = `${data.houseNumber ? data.houseNumber + "," : ""} ${
+              data.subLocality ? data.subLocality + "," : ""
+            } ${data.locality ? data.locality.trim() : ""}${
+              data.city ? ", " + data.city : ""
+            } ${data.state ? data.state : ""}`;
+          }
+          $("#locationName").text(address);
+        }
+      );
     </script>
     <script src="/js/bs.js"></script>
   </body>

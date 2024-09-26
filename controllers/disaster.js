@@ -4,13 +4,17 @@ const Disaster = require("../models/disaster");
 // Handle form submission
 exports.createDisaster = async (req, res) => {
   try {
-    const { name, eloc, locationName } = req.body;
+    const { name, lat, lng, description } = req.body;
 
     // Create a new disaster entry
     const disaster = new Disaster({
       name,
-      eLoc: eloc,
-      locationName,
+      locationCoords: {
+        lat: lat,
+        lng: lng,
+      },
+
+      description,
       picture: req.file.filename,
       uploadedBy: req.user.user._id,
     });
