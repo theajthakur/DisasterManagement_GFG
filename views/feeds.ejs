@@ -44,7 +44,19 @@
               </div>
             </div>
           </div>
-          <% }) %> <% } %>
+          <% }) %> <% }else{ %>
+          <div
+            class="row justify-content-center align-content-center"
+            style="height: 70vh"
+          >
+            <div class="col-md-6 col-lg-4">
+              <div class="text-center alert alert-primary p-5">
+                <h2>No Feed Yet</h2>
+                <p>Be First to Upload!</p>
+              </div>
+            </div>
+          </div>
+          <% } %>
         </div>
       </div>
       <% if (locals.login) { %>
