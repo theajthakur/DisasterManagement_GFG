@@ -24,7 +24,10 @@
         <div class="feed-container row">
           <% if (locals.data) { %> <% data.forEach(function(disaster) { %>
           <div class="col-md-6 col-lg-4 mb-3">
-            <div class="feed-card" data-id="<%= disaster._id %>">
+            <div
+              class="feed-card animate__animated animate__zoomIn"
+              data-id="<%= disaster._id %>"
+            >
               <div class="meta-details">
                 <h5><%= disaster.name %></h5>
                 <!-- Disaster name -->

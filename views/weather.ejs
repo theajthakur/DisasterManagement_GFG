@@ -14,14 +14,17 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/css/bs.css" />
+    <link rel="stylesheet" href="/css/animated.css" />
   </head>
   <body>
     <div id="root">
       <%- include('components/navbar') %>
       <div class="container mt-5">
-        <div class="row alert alert-warning p-5">
+        <div
+          class="row alert alert-warning p-5 animate__animated animate__zoomIn"
+        >
           <div class="col-lg-6">
-            <div class="h-100">
+            <div class="h-100 animate__animated animate__fadeIn">
               <h3 class="mb-3">We're here to Help You.........</h3>
               <p>
                 At Anti-Disaster, we believe that timely information can save
@@ -36,7 +39,7 @@
             </div>
           </div>
           <div class="col-lg-6">
-            <div class="h-100 p-3">
+            <div class="h-100 p-3 animate__animated animate__fadeIn">
               <% if (!locals.login) { %> <%- include("loginform") %> <% }else
               if(locals.user){ %>
               <div
