@@ -7,11 +7,8 @@ const disasterSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    locationCoords: {
-      type: {
-        lat: { type: Number, required: true },
-        lng: { type: Number, required: true },
-      },
+    eLoc: {
+      type: String,
       required: true,
     },
     locationName: {

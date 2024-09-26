@@ -4,18 +4,12 @@ const Disaster = require("../models/disaster");
 // Handle form submission
 exports.createDisaster = async (req, res) => {
   try {
-    const { name, locationCoords, locationName } = req.body;
-
-    // Split locationCoords into latitude and longitude
-    const [lat, lng] = locationCoords.split(",");
+    const { name, eloc, locationName } = req.body;
 
     // Create a new disaster entry
     const disaster = new Disaster({
       name,
-      locationCoords: {
-        lat: parseFloat(lat),
-        lng: parseFloat(lng),
-      },
+      eLoc: eloc,
       locationName,
       picture: req.file.filename,
       uploadedBy: req.user.user._id,
@@ -27,6 +21,7 @@ exports.createDisaster = async (req, res) => {
     // Redirect to a success page (or render the same form with a success message)
     res.redirect("/feeds");
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Failed to save disaster" });
   }
 };
