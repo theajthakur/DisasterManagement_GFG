@@ -12,7 +12,7 @@ router.get("/feeds", async (req, res) => {
   const user = req.user;
   const data = await Disaster.find({});
   if (user) return res.render("feeds", { login: true, user, data });
-  res.render("feeds");
+  return res.render("feeds", { login: false, data });
 });
 
 router.get("/about", async (req, res) => {

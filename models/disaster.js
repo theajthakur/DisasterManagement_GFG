@@ -22,6 +22,11 @@ const disasterSchema = new mongoose.Schema(
       type: String, // Store the filename
       required: true,
     },
+    uploadedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );

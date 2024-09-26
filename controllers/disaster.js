@@ -17,7 +17,8 @@ exports.createDisaster = async (req, res) => {
         lng: parseFloat(lng),
       },
       locationName,
-      picture: req.file.filename, // Filename stored after uploading
+      picture: req.file.filename,
+      uploadedBy: req.user.user._id,
     });
 
     // Save the record in the database
