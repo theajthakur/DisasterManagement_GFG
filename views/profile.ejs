@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <%- include("components/header") %>
+  </head>
+  <body>
+    <div id="root">
+      <%- include('components/navbar') %>
+      <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-10 col-lg-8">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="text-center">Profile</h3>
+              </div>
+              <div class="card-body">
+                <table class="table table-striped">
+                  <tr>
+                    <th>Name</th>
+                    <td><%= user.user.name %></td>
+                  </tr>
+                  <tr>
+                    <th>Email</th>
+                    <td><%= user.user.email %></td>
+                  </tr>
+                  <tr>
+                    <th>Mobile</th>
+                    <td><%= user.user.mobile %></td>
+                  </tr>
+                  <tr>
+                    <th>Since</th>
+                    <td>
+                      <%= new Date(user.user.createdAt).toLocaleDateString() %>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <% if (locals.posts && posts.length>0) { %>
+            <h3 class="mt-5 mb-3">Posts (<%= posts.length %>)</h3>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% posts.forEach(element => { %>
+                <tr>
+                  <td>
+                    <a href="/feeds/<%= element._id %>" target="_blank"
+                      ><%= element.name %></a
+                    >
+                  </td>
+                  <td><%= element.description %></td>
+                  <td>
+                    <%= new Date(element.createdAt).toLocaleDateString() %> -
+                    <%= new Date(element.createdAt).toLocaleTimeString() %>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

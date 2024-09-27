@@ -30,10 +30,8 @@ const checkLogin = (req, res, next) => {
 
 app.use("/auth/", authRouter);
 app.use("/", checkLogin, staticRouter);
-app.use("/web/", authMiddleware);
 app.use("/api/location", authMiddleware, locationApiRouter);
 app.use("/api/weather", weatherApiRouter);
-app.use("/", authMiddleware, disasterRoutes);
 
 app.listen(port, () => {
   console.log(`Server Started on PORT ${port}`);

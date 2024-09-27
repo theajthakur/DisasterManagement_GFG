@@ -33,14 +33,46 @@ router.get("/feeds", async (req, res) => {
 
 router.get("/feeds/:id", async (req, res) => {
   const tarId = req.params.id;
+  const user = req.user;
+  const conData = {
+    login: false,
+  };
+  if (user) conData.login = true;
   if (!tarId) return res.end("Invalid Request!");
   const disaster = await Disaster.findOne({ _id: tarId });
   if (!disaster) return res.redirect("/feeds");
-  return res.render("disaster", { disaster: disaster });
+  return res.render("disaster", { disaster: disaster, conData });
 });
 
 router.get("/about", async (req, res) => {
-  res.render("about");
+  const user = req.user;
+  const conData = {
+    login: false,
+  };
+  if (user) conData.login = true;
+  res.render("about", condata);
 });
 
+router.get("/profile", async (req, res) => {
+  const user = req.user;
+  const conData = {
+    login: false,
+  };
+
+  if (user) conData.login = true;
+  delete user.user.password;
+  if (!user)
+    return res.json({
+      status: "error",
+      messsage: "Please Login to see your profile...",
+    });
+
+  try {
+    const posts = await Disaster.find({ uploadedBy: user.user._id });
+    res.render("profile", { user, posts, conData });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "error", message: "Error Occured!", error: error });
+  }
+});
 module.exports = router;
