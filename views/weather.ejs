@@ -118,9 +118,16 @@
             $(".wet_icon").attr("src", data.current.condition.icon);
             $(".wet_temp").text(data.current.temp_c + "°C");
             $(".wet_address").text(
-              data.location.name + "," + data.location.region
+              data.location.name + ", " + data.location.region
             );
             $(".wet_type").text(data.current.condition.text);
+
+            $(".wet_wind").text(data.current.wind_kph + " km/h");
+            $(".wet_wind").append(
+              `<img src='https://ssl.gstatic.com/m/images/weather/wind_unselected.svg' width='20px' title='${data.current.wind_degree} Degree North' style='margin-left: 10px; rotate: calc(${data.current.wind_degree}deg - 90deg) '>`
+            );
+            $(".wet_pressure").text(data.current.pressure_mb + " mb");
+            $(".wet_humidity").text(data.current.humidity + "%");
           });
         } catch (error) {}
       }
