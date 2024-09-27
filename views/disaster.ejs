@@ -5,15 +5,7 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>
-      <% if (locals.title) { %> <%= title %> <% }else{ %> Anti-Disaster <% } %>
-    </title>
-    <script src="/js/jquery.js"></script>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/css/bs.css" />
+    <%- include("components/header") %>
     <script src="https://apis.mappls.com/advancedmaps/api/b9aa7fa83d2a7a2631818d555c8b1d7d/map_sdk?v=3.0&layer=vector"></script>
   </head>
   <body>
