@@ -6,7 +6,7 @@ public/uploads/
 logs
 *.log
 npm-debug.log*
-
+idea.txt
 # Environment variables
 .env
 
