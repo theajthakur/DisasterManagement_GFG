@@ -15,14 +15,14 @@
         <div class="alert alert-success"><%= reg_msg %></div>
         <% } %>
         <div
-          class="mb-3 alert alert-success p-5 animate__animated animate__zoomIn weather_section"
+          class="mb-3 alert alert-success p-md-5 animate__animated animate__zoomIn weather_section"
           style="display: none"
         >
           <%- include('dashboard') %>
         </div>
         <div
           id="login"
-          class="row mb-3 alert alert-warning p-5 animate__animated animate__zoomIn"
+          class="row mb-3 alert alert-warning p-md-5 animate__animated animate__zoomIn"
         >
           <div class="col-lg-6">
             <div class="h-100 animate__animated animate__fadeIn">
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="col-lg-6">
-            <div class="h-100 p-3 animate__animated animate__fadeIn">
+            <div class="h-100 p-md-3 animate__animated animate__fadeIn">
               <% if (!locals.login) { %> <%- include("loginform") %> <% }else
               if(locals.user){ %>
               <div
@@ -68,7 +68,7 @@
           </div>
         </div>
         <div
-          class="row alert mb-3 alert-info p-5 animate__animated animate__zoomIn"
+          class="row alert mb-3 alert-info p-md-5 animate__animated animate__zoomIn"
         >
           <div class="col-md-5 col-lg-4 col-xl-3">
             <img class="img-thumbnail" src="/image/helmet.png" />
