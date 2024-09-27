@@ -13,9 +13,13 @@
       <%- include('components/navbar') %>
       <div class="container mt-5">
         <% if (locals.disaster) { %>
-        <table class="table table-bordered">
+        <table class="animate__animated animate__fadeIn table table-bordered">
           <tr colspan="2">
-            <div id="map" style="height: 40vh"></div>
+            <div
+              id="map"
+              class="animate__backInDown animate__animated"
+              style="height: 40vh"
+            ></div>
           </tr>
           <tr>
             <th>Title</th>
