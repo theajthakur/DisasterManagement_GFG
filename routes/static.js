@@ -25,9 +25,11 @@ router.get("/feeds", async (req, res) => {
   const data = await Disaster.find({});
   const conData = {
     login: false,
+    data: {},
   };
   if (user) conData.login = true;
   if (data.length > 0) conData.data = data;
+  conData.user = user;
   return res.render("feeds", conData);
 });
 
@@ -50,7 +52,7 @@ router.get("/about", async (req, res) => {
     login: false,
   };
   if (user) conData.login = true;
-  res.render("about", condata);
+  res.render("about", conData);
 });
 
 router.get("/profile", async (req, res) => {
@@ -69,7 +71,8 @@ router.get("/profile", async (req, res) => {
 
   try {
     const posts = await Disaster.find({ uploadedBy: user.user._id });
-    res.render("profile", { user, posts, conData });
+    res.render("profile", { user, posts, login: conData.login });
+    // res.json({ user, posts, login: conData.login });
   } catch (error) {
     console.log(error);
     res.json({ status: "error", message: "Error Occured!", error: error });
