@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 
 router.get("/feeds", async (req, res) => {
   const user = req.user;
-  const data = await Disaster.find({});
+  const data = await Disaster.find({}).sort({ createdAt: -1 });
   const conData = {
     login: false,
     data: {},
@@ -70,9 +70,10 @@ router.get("/profile", async (req, res) => {
     });
 
   try {
-    const posts = await Disaster.find({ uploadedBy: user.user._id });
+    const posts = await Disaster.find({ uploadedBy: user.user._id }).sort({
+      createdAt: -1,
+    });
     res.render("profile", { user, posts, login: conData.login });
-    // res.json({ user, posts, login: conData.login });
   } catch (error) {
     console.log(error);
     res.json({ status: "error", message: "Error Occured!", error: error });
