@@ -30,9 +30,12 @@
           </li>
           <% if (locals.login && login) { %>
           <li class="nav-item">
-            <a class="nav-link" title="View Your Profile" href="/profile">
-              <%= (user.user.name).toUpperCase() %>
-            </a>
+            <a class="nav-link" title="View Your Profile" href="/profile"
+              >Profile</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
           </li>
           <% }else{ %>
           <li class="nav-item">
