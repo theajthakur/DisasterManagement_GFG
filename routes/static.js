@@ -43,8 +43,4 @@ router.get("/about", async (req, res) => {
   res.render("about");
 });
 
-router.get("/dashboard", async (req, res) => {
-  res.render("dashboard");
-});
-
 module.exports = router;

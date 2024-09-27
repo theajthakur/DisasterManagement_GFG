@@ -88,20 +88,7 @@
       </div>
     </div>
     <script>
-      const coords = { lat: 3, lng: 3 };
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(success, error);
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-      }
-
-      // Success callback function
-      function success(position) {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        coords.lat = lat;
-        coords.lng = lng;
-        $(".weather_section").show();
+      function updateWeather() {
         try {
           const url = "/api/weather/general";
           $.post(url, coords, (data) => {
@@ -119,8 +106,27 @@
             );
             $(".wet_pressure").text(data.current.pressure_mb + " mb");
             $(".wet_humidity").text(data.current.humidity + "%");
+
+            const timed = data.current.last_updated;
+            $(".wet_updated").text(timed);
           });
         } catch (error) {}
+      }
+      const coords = { lat: 3, lng: 3 };
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+
+      // Success callback function
+      function success(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        coords.lat = lat;
+        coords.lng = lng;
+        $(".weather_section").show();
+        updateWeather();
       }
 
       function error() {
