@@ -1,4 +1,4 @@
-<div class="login-form">
+<div class="login-form dyn_forms">
   <form method="POST">
     <div class="p-3 bg-light">
       <h3 class="text-center pb-3">Login</h3>
@@ -18,16 +18,77 @@
           placeholder="*******"
         />
       </div>
+      <a href="javascript:formshow('register')">Registration</a>
+      <button class="btn btn-warning w-100 mt-3">Submit</button>
+    </div>
+  </form>
+</div>
+<div class="register-form dyn_forms" style="display: none">
+  <form method="POST">
+    <div class="p-3 bg-light">
+      <h3 class="text-center pb-3">Register</h3>
+      <div class="form-group my-1">
+        <input
+          class="form-control"
+          type="text"
+          required
+          name="name"
+          placeholder="Enter Your Name"
+        />
+      </div>
+      <div class="form-group my-1">
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          placeholder="user@example.com"
+        />
+      </div>
+      <div class="form-group my-1">
+        <input
+          class="form-control"
+          type="password"
+          name="password"
+          placeholder="Enter Your Password"
+        />
+      </div>
+      <div class="form-group my-1">
+        <input
+          class="form-control"
+          type="number"
+          name="mobile"
+          placeholder="+91 XXXXX XXXXX"
+        />
+      </div>
+      <a href="javascript:formshow('login')">Login</a>
       <button class="btn btn-warning w-100 mt-3">Submit</button>
     </div>
   </form>
 </div>
 <script>
+  function formshow(formn) {
+    $(".dyn_forms").hide();
+    if (formn == "login") {
+      $(".login-form").show();
+    } else {
+      $(".register-form").show();
+    }
+  }
   $(document).ready(() => {
     $(".login-form form").submit(function () {
       $.post("/auth/login", $(this).serializeArray(), (data) => {
         if (data && data.status == "success") {
           window.location.reload();
+        }
+      });
+      return false;
+    });
+    $(".register-form form").submit(function () {
+      $.post("/auth/register", $(this).serializeArray(), (data) => {
+        if (data && data.status == "success") {
+          window.location.reload();
+        } else {
+          alert("Something went wrong!");
         }
       });
       return false;

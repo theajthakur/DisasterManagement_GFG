@@ -43,7 +43,7 @@ router.get("/feeds/:id", async (req, res) => {
   if (!tarId) return res.end("Invalid Request!");
   const disaster = await Disaster.findOne({ _id: tarId });
   if (!disaster) return res.redirect("/feeds");
-  return res.render("disaster", { disaster: disaster, conData });
+  return res.render("disaster", { disaster: disaster, login: conData.login });
 });
 
 router.get("/about", async (req, res) => {

@@ -11,6 +11,9 @@
     <div id="root">
       <%- include('components/navbar') %>
       <div class="container mt-5">
+        <% if (locals.reg_msg) { %>
+        <div class="alert alert-success"><%= reg_msg %></div>
+        <% } %>
         <div
           class="mb-3 alert alert-success p-5 animate__animated animate__zoomIn weather_section"
           style="display: none"

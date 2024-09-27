@@ -54,9 +54,21 @@ const handleRegister = async (req, res) => {
   const { name, email, mobile, password } = req.body;
   try {
     const user = await User.create({ name, email, mobile, password });
+    const token = jwt.sign({ user }, JWT_SECRET);
     return res
       .status(201)
+      .cookie("token", token, {
+        httpOnly: true, // Helps mitigate XSS attacks by restricting access to the cookie
+        secure: process.env.NODE_ENV === "production", // Use Secure flag only in production (HTTPS)
+        maxAge: 3600000, // 1 hour
+      })
       .json({ status: "success", message: "User created successfully!", user });
+
+    // If login is successful
+    // return res.render("/", {
+    //   login: false,
+    //   reg_msg: "Account Created Successfully, Please login!",
+    // });
   } catch (error) {
     console.log(error);
 
