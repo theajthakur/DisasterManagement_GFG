@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="h-100 d-flex justify-content-center align-items-center">
+      <div class="h-100 text-center weather-card w-100">
+        <img
+          class="wet_icon"
+          src="https://openweathermap.org/img/wn/02d@2x.png"
+        />
+        <div class="info">
+          <p class="wet_temp m-0">32.23°C</p>
+          <p class="wet_address text-secondary">Delhi, India</p>
+        </div>
+        <p class="m-0 wet_type">Clouds</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8"></div>
+</div>
+<style>
+  .weather-card {
+    background: linear-gradient(45deg, #fdff66, #00dcff);
+    border: 1px solid #f3f3f3;
+    border-radius: 5px;
+  }
+
+  .weather-card p.wet_type {
+    background: #6060601c;
+    backdrop-filter: blur(5px);
+    padding: 10px;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  .weather-card img.wet_icon {
+    background: #00000045;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 50%;
+  }
+</style>

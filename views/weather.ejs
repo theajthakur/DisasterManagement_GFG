@@ -21,6 +21,12 @@
       <%- include('components/navbar') %>
       <div class="container mt-5">
         <div
+          class="mb-3 alert alert-success p-5 animate__animated animate__zoomIn weather_section"
+          style="display: none"
+        >
+          <%- include('dashboard') %>
+        </div>
+        <div
           class="row mb-3 alert alert-warning p-5 animate__animated animate__zoomIn"
         >
           <div class="col-lg-6">
@@ -90,6 +96,40 @@
         </div>
       </div>
     </div>
+    <script>
+      const coords = { lat: 3, lng: 3 };
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+
+      // Success callback function
+      function success(position) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        coords.lat = lat;
+        coords.lng = lng;
+        $(".weather_section").show();
+        try {
+          const url = "/api/weather/general";
+          $.post(url, coords, (data) => {
+            console.log(data);
+            $(".wet_icon").attr("src", data.current.condition.icon);
+            $(".wet_temp").text(data.current.temp_c + "°C");
+            $(".wet_address").text(
+              data.location.name + "," + data.location.region
+            );
+            $(".wet_type").text(data.current.condition.text);
+          });
+        } catch (error) {}
+      }
+
+      function error() {
+        $(".weather_section").remove();
+        alert("Unable to retrieve your location.");
+      }
+    </script>
     <script src="/js/bs.js"></script>
   </body>
 </html>
