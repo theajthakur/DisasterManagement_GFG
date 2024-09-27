@@ -22,10 +22,11 @@
                 <h5><%= disaster.name %></h5>
                 <!-- Disaster name -->
                 <p class="m-0"><%= disaster.locationName %></p>
-                <p>
+                <p class="m-0">
                   <%= new Date(disaster.createdAt).toLocaleDateString() %> - <%=
                   new Date(disaster.createdAt).toLocaleTimeString() %>
                 </p>
+                <p><%= disaster.description %></p>
                 <!-- Location and formatted date-time -->
               </div>
               <div class="disaster-gallery text-center">
