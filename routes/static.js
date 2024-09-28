@@ -79,4 +79,32 @@ router.get("/profile", async (req, res) => {
     res.json({ status: "error", message: "Error Occured!", error: error });
   }
 });
+
+router.get("/admin", async (req, res) => {
+  const user = req.user;
+  if (!user) return res.json({ status: "error", message: "unauthorised!" });
+  if (user.user.email == "thakurvijayofficial@gmail.com") {
+    const data = await Disaster.find().sort({
+      createdAt: -1,
+    });
+
+    return res.render("admin", { posts: data });
+  } else {
+    return res.json({ status: "error", message: "No Permission!" });
+  }
+});
+router.post("/admin/delete", async (req, res) => {
+  const user = req.user;
+  if (!user) return res.json({ status: "error", message: "unauthorised!" });
+  if (user.user.email == "thakurvijayofficial@gmail.com") {
+    const postid = req.body.postid;
+    if (!postid)
+      return res.json({ status: "error", message: "Invalid Request!" });
+
+    try {
+      await Disaster.deleteOne({ _id: postid });
+      return res.json({ status: "success", message: "Post Deleted!" });
+    } catch (error) {}
+  }
+});
 module.exports = router;

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <%- include("components/header") %>
+  </head>
+  <body>
+    <div id="root">
+      <%- include('components/navbar') %>
+      <div class="container mt-5">
+        <h3>Admin Panel</h3>
+        <% if (locals.posts && posts.length>0) { %>
+        <h3 class="mt-5 mb-3">Posts (<%= posts.length %>)</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th colspan="2">Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% posts.forEach(element => { %>
+            <tr class="post_row" data-id="<%= element._id %>">
+              <td>
+                <a href="/feeds/<%= element._id %>" target="_blank"
+                  ><%= element.name %></a
+                >
+              </td>
+              <td colspan="2">
+                <%= new Date(element.createdAt).toLocaleDateString() %> - <%=
+                new Date(element.createdAt).toLocaleTimeString() %>
+              </td>
+              <td>
+                <button
+                  class="btn btn-danger postdel"
+                  data-id="<%= element._id %>"
+                  title="Delete Post"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+        <script>
+          $(document).ready(() => {
+            $("table tr.post_row button.postdel").click(function () {
+              const postid = $(this).data("id");
+              $.post("/admin/delete", { postid: postid }, (data) => {
+                if (data.status == "success") {
+                  $("tr[data-id=" + postid + "]").remove();
+                }
+              });
+            });
+          });
+        </script>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>
