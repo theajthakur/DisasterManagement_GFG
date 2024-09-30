@@ -1,0 +1,23 @@
+body {
+  background: linear-gradient(4deg, transparent, #e7e0ff) fixed;
+}
+
+ul.navbar-nav li.nav-item a:before {
+  content: " ";
+  background: #a47dff;
+  width: 90%;
+  height: 2px;
+  position: absolute;
+  left: 0;
+  transition: 0.3s;
+  bottom: -20px;
+}
+
+ul.navbar-nav li.nav-item a {
+  position: relative;
+  overflow: hidden;
+}
+
+ul.navbar-nav li.nav-item a:hover:before {
+  bottom: 5px;
+}
