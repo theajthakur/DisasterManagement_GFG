@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const Disaster = require("../models/disaster");
 // Define the user schema
 const userSchema = new mongoose.Schema({
   name: {
@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+userSchema.pre("remove", async function (next) {
+  await Disaster.deleteMany({ uploadedBy: this._id });
+  console.log(
+    `${this.name} has been deleted with all its corresponding Disasters!!`
+  );
+  next();
 });
 
 // Create the User model
