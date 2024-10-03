@@ -77,7 +77,7 @@ router.get("/profile", async (req, res) => {
       user,
       posts,
       login: conData.login,
-      title: "Profile - " + user.name,
+      title: "Profile - " + user.user.name,
     });
   } catch (error) {
     console.log(error);
