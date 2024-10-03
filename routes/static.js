@@ -73,7 +73,12 @@ router.get("/profile", async (req, res) => {
     const posts = await Disaster.find({ uploadedBy: user.user._id }).sort({
       createdAt: -1,
     });
-    res.render("profile", { user, posts, login: conData.login });
+    res.render("profile", {
+      user,
+      posts,
+      login: conData.login,
+      title: "Profile - " + user.name,
+    });
   } catch (error) {
     console.log(error);
     res.json({ status: "error", message: "Error Occured!", error: error });
