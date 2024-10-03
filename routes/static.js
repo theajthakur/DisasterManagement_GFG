@@ -26,6 +26,7 @@ router.get("/feeds", async (req, res) => {
   const conData = {
     login: false,
     data: {},
+    title: "(5) Feeds",
   };
   if (user) conData.login = true;
   if (data.length > 0) conData.data = data;
@@ -43,13 +44,18 @@ router.get("/feeds/:id", async (req, res) => {
   if (!tarId) return res.end("Invalid Request!");
   const disaster = await Disaster.findOne({ _id: tarId });
   if (!disaster) return res.redirect("/feeds");
-  return res.render("disaster", { disaster: disaster, login: conData.login });
+  return res.render("disaster", {
+    disaster: disaster,
+    login: conData.login,
+    title: disaster.name,
+  });
 });
 
 router.get("/about", async (req, res) => {
   const user = req.user;
   const conData = {
     login: false,
+    title: "About",
   };
   if (user) conData.login = true;
   res.render("about", conData);
@@ -77,7 +83,7 @@ router.get("/profile", async (req, res) => {
       user,
       posts,
       login: conData.login,
-      title: "Profile - " + user.user.name,
+      title: user.user.name.toUpperCase(),
     });
   } catch (error) {
     console.log(error);
@@ -93,7 +99,7 @@ router.get("/admin", async (req, res) => {
       createdAt: -1,
     });
 
-    return res.render("admin", { posts: data });
+    return res.render("admin", { posts: data, title: "Admin Panel" });
   } else {
     return res.json({ status: "error", message: "No Permission!" });
   }
